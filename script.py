@@ -64,6 +64,8 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
 
 
 def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
+    if not user_id in ratings.index.tolist():
+        add_new_user(user_id)
     user_historic = ratings.loc[user_id]
 
     if sum(user_historic) == 0:
@@ -99,11 +101,15 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
 
 def write_rating(ratings, rate, joke_id, user_id):
     if not user_id in ratings.index.tolist():
-        ratings.loc[len(ratings.index)] = [0 for i in range(158)]
-        indexs = ratings.index.tolist()
-        indexs[-1] = user_id
-        ratings.index = pd.Index(indexs)
+        add_new_user(user_id)
     ratings.loc[user_id, joke_id] = rate
+
+
+def add_new_user(user_id):
+    ratings.loc[len(ratings.index)] = [0 for i in range(158)]
+    indexs = ratings.index.tolist()
+    indexs[-1] = user_id
+    ratings.index = pd.Index(indexs)
 
 
 if __name__ == '__main__':
