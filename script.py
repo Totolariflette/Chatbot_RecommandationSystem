@@ -126,3 +126,10 @@ if __name__ == '__main__':
     print(joke)
     write_rating(ratings, 7, joke_id, 10000)
     print(ratings.iloc[-1, :].to_string())
+    print("Second joke")
+    joke_id, joke = get_recommanded_joke(ratings, jokes_dict, number_of_ratings,
+                                         10000)
+    print(joke)
+    write_rating(ratings, 7, joke_id, 10000)
+    print(ratings.iloc[-1, :].to_string())
+
