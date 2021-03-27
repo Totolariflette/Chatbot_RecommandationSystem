@@ -6,16 +6,17 @@ from flask import jsonify, request
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 ratings, jokes, jokes_dict, mean_ratings, number_of_ratings = script.initialize()
-new_user = [0 for i in range(158)]
 current_joke_id = 1
 
 
 @app.route('/api/get', methods=['GET'])
 def get_one_joke():
     global current_joke_id
+    user_id = request.args.get("user_id", type=int)
+
     current_joke_id, joke = script.get_recommanded_joke(ratings, jokes_dict,
                                                         number_of_ratings,
-                                                        new_user)
+                                                        user_id)
     response = {'joke': joke}
     return response
 
@@ -39,8 +40,11 @@ def get_worst_jokes():
 @app.route('/api/rate', methods=['POST'])
 def post_rating():
     rate = request.json["rate"]
-    new_user[current_joke_id - 1] = rate
-    print(new_user[current_joke_id -1])
+    user_id = request.args.get("user_id", type=int)
+
+    script.write_rating(ratings, rate, current_joke_id, user_id)
+    print(ratings.loc[user_id, current_joke_id])
+
     return f'rate: {rate}'
 
 
