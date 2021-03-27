@@ -61,17 +61,13 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
     return worst_jokes
 
 
-def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
-    if user_id not in ratings.index.tolist():
-        add_new_user(ratings, user_id)
-    user_historic = ratings.loc[user_id]
-
+def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_data):
     # if sum(user_historic) == 0:
     #     rand = randint(1, 158)
     #     return rand, jokes_dict[rand]
 
     ratings_T = ratings.T
-    users_like = ratings_T.corrwith(pd.Series(user_historic))
+    users_like = ratings_T.corrwith(pd.Series(user_data))
 
     users_like_frame = pd.DataFrame(users_like, columns=['Correlation'])
 
@@ -89,7 +85,7 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
     try:
         for i in indexs:
             for j in range(jokes_number):
-                if ratings.iloc[i, j] > 5 and user_historic[j] == 0:
+                if ratings.iloc[i, j] > 5 and user_data[j] == 0:
                     raise Found
     except Found:
         joke_to_show = j + 1
@@ -122,14 +118,14 @@ if __name__ == '__main__':
     # new_user[19] = new_user[155] = new_user[156] = new_user[151] = -7
 
     joke_id, joke = get_recommanded_joke(ratings, jokes_dict, number_of_ratings,
-                                         10000)
+                                         276804728338382858)
     print(joke)
-    write_rating(ratings, 7, joke_id, 10000)
+    write_rating(ratings, 7, joke_id, 276804728338382858)
     print(ratings.iloc[-1, :].to_string())
     print("Second joke")
     joke_id, joke = get_recommanded_joke(ratings, jokes_dict, number_of_ratings,
-                                         10000)
+                                         276804728338382858)
     print(joke)
-    write_rating(ratings, 7, joke_id, 10000)
+    write_rating(ratings, 7, joke_id, 276804728338382858)
     print(ratings.iloc[-1, :].to_string())
 

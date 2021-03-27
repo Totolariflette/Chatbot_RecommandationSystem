@@ -6,6 +6,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 ratings, jokes, jokes_dict, mean_ratings, number_of_ratings = script.initialize()
 current_joke_id = 1
+users = {}
 
 
 @app.route('/api/get', methods=['GET'])
@@ -13,9 +14,11 @@ def get_one_joke():
     global current_joke_id
     user_id = request.args.get("user_id", type=int)
 
+    if not users[user_id]:
+        users[user_id] = [0 for i in range(158)]
     current_joke_id, joke = script.get_recommanded_joke(ratings, jokes_dict,
                                                         number_of_ratings,
-                                                        user_id)
+                                                        users[user_id])
     response = {'joke': joke}
     return response
 
@@ -41,8 +44,9 @@ def post_rating():
     rate = request.json["rate"]
     user_id = request.json["user_id"]
 
-    script.write_rating(ratings, rate, current_joke_id, user_id)
-    print(ratings.loc[user_id, current_joke_id])
+    if not users[user_id]:
+        users[user_id] = [0 for i in range(158)]
+    users[user_id][current_joke_id] = rate
 
     return f'rate: {rate}'
 
