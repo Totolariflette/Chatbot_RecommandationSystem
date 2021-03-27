@@ -12,6 +12,7 @@ users = {}
 @app.route('/api/get', methods=['GET'])
 def get_one_joke():
     global current_joke_id
+    global users
     user_id = request.args.get("user_id", type=int)
 
     if not users[user_id]:
@@ -41,6 +42,7 @@ def get_worst_jokes():
 
 @app.route('/api/rate', methods=['POST'])
 def post_rating():
+    global users
     rate = request.json["rate"]
     user_id = request.json["user_id"]
 
