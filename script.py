@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 jokes_number = 158
+new_user = [0 for i in range(158)]
 
 
 def initialize():
@@ -35,8 +36,7 @@ def initialize():
     return ratings, jokes, jokes_dict, mean_ratings, number_of_ratings
 
 
-def get_popular_jokes(mean_ratings, jokes_dict):
-    n = 10
+def get_popular_jokes(mean_ratings, jokes_dict, n=3):
     # Recommend the top n most popular jokes
     top_ratings = mean_ratings.sort_values(ascending=False,
                                            by='mean_joke_ratings')[:n]
@@ -50,8 +50,7 @@ def get_popular_jokes(mean_ratings, jokes_dict):
     return popular_jokes
 
 
-def get_worst_jokes(mean_ratings, jokes_dict):
-    n = 10
+def get_worst_jokes(mean_ratings, jokes_dict, n=3):
     bottom_ratings = mean_ratings.sort_values(ascending=False,
                                               by='mean_joke_ratings')[-n:].iloc[
                      ::-1]
@@ -88,7 +87,11 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_historic):
         joke_to_show = j
 
     print(jokes_dict[j])
-    return jokes_dict[j]
+    return j, jokes_dict[j]
+
+
+def write_rating(rate, question_id):
+    new_user[question_id] = rate
 
 
 if __name__ == '__main__':
@@ -103,3 +106,4 @@ if __name__ == '__main__':
     new_user[19] = new_user[155] = new_user[156] = new_user[151] = -7
 
     get_recommanded_joke(ratings, jokes_dict, number_of_ratings, new_user)
+
