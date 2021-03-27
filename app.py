@@ -47,4 +47,4 @@ def post_rating():
     return f'rate: {rate}'
 
 
-app.run()
+app.run(host='0.0.0.0')
