@@ -7,7 +7,7 @@ app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 ratings, jokes, jokes_dict, mean_ratings, number_of_ratings = script.initialize()
 new_user = [0 for i in range(158)]
-current_joke_id = 0
+current_joke_id = 1
 
 
 @app.route('/api/get', methods=['GET'])
@@ -40,6 +40,7 @@ def get_worst_jokes():
 def post_rating():
     rate = request.args.get("rate", default=0, type=float)
     new_user[current_joke_id - 1] = rate
+    return 'ok'
 
 
 app.run()
