@@ -2,7 +2,6 @@ import pandas as pd
 from random import randint
 
 jokes_number = 158
-new_user = [0 for i in range(158)]
 
 
 def initialize():
@@ -67,9 +66,9 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
         add_new_user(ratings, user_id)
     user_historic = ratings.loc[user_id]
 
-    if sum(user_historic) == 0:
-        rand = randint(1, 158)
-        return rand, jokes_dict[rand]
+    # if sum(user_historic) == 0:
+    #     rand = randint(1, 158)
+    #     return rand, jokes_dict[rand]
 
     ratings_T = ratings.T
     users_like = ratings_T.corrwith(pd.Series(user_historic))
@@ -123,7 +122,7 @@ if __name__ == '__main__':
     # new_user[19] = new_user[155] = new_user[156] = new_user[151] = -7
 
     joke_id, joke = get_recommanded_joke(ratings, jokes_dict, number_of_ratings,
-                                         new_user)
+                                         10000)
     print(joke)
     write_rating(ratings, 7, joke_id, 10000)
     print(ratings.iloc[-1, :].to_string())
