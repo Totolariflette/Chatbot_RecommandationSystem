@@ -2,7 +2,6 @@ import flask
 import script
 from flask import jsonify, request
 
-
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 ratings, jokes, jokes_dict, mean_ratings, number_of_ratings = script.initialize()

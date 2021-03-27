@@ -1,7 +1,6 @@
 import pandas as pd
 from random import randint
 
-
 jokes_number = 158
 new_user = [0 for i in range(158)]
 
@@ -64,7 +63,7 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
 
 
 def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
-    if not user_id in ratings.index.tolist():
+    if user_id not in ratings.index.tolist():
         add_new_user(user_id)
     user_historic = ratings.loc[user_id]
 
@@ -100,12 +99,12 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
 
 
 def write_rating(ratings, rate, joke_id, user_id):
-    if not user_id in ratings.index.tolist():
+    if user_id not in ratings.index.tolist():
         add_new_user(user_id)
     ratings.loc[user_id, joke_id] = rate
 
 
-def add_new_user(user_id):
+def add_new_user(ratings, user_id):
     ratings.loc[len(ratings.index)] = [0 for i in range(158)]
     indexs = ratings.index.tolist()
     indexs[-1] = user_id
