@@ -86,11 +86,11 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_historic):
 
     try:
         for i in indexs:
-            for j in range(1, jokes_number + 1):
+            for j in range(jokes_number):
                 if ratings.iloc[i, j] > 5 and user_historic[j] == 0:
                     raise Found
     except Found:
-        joke_to_show = j
+        joke_to_show = j + 1
 
     return j, jokes_dict[j]
 
