@@ -100,7 +100,7 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
 
 def write_rating(ratings, rate, joke_id, user_id):
     if user_id not in ratings.index.tolist():
-        add_new_user(user_id)
+        add_new_user(ratings, user_id)
     ratings.loc[user_id, joke_id] = rate
 
 
