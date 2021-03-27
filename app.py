@@ -13,9 +13,9 @@ users = {}
 def get_one_joke():
     global current_joke_id
     global users
-    user_id = request.args.get("user_id", type=int)
 
-    if not users[user_id]:
+    user_id = request.args.get("user_id", type=int)
+    if user_id not in users:
         users[user_id] = [0 for i in range(158)]
     current_joke_id, joke = script.get_recommanded_joke(ratings, jokes_dict,
                                                         number_of_ratings,
@@ -46,7 +46,7 @@ def post_rating():
     rate = request.json["rate"]
     user_id = request.json["user_id"]
 
-    if not users[user_id]:
+    if user_id not in users:
         users[user_id] = [0 for i in range(158)]
     users[user_id][current_joke_id] = rate
 
