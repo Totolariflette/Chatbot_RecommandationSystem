@@ -64,9 +64,9 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
 
 
 def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_historic):
-    if sum(user_historic) == 0:
-        rand = randint(1, 158)
-        return rand, jokes_dict[rand]
+    # if sum(user_historic) == 0:
+    #     rand = randint(1, 158)
+    #     return rand, jokes_dict[rand]
 
     ratings_T = ratings.T
     users_like = ratings_T.corrwith(pd.Series(user_historic))
