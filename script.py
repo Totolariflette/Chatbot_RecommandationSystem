@@ -1,6 +1,4 @@
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 jokes_number = 158
 new_user = [0 for i in range(158)]
@@ -46,7 +44,7 @@ def get_popular_jokes(mean_ratings, jokes_dict, n=3):
     popular_jokes = []
     for e in top_ids:
         popular_jokes.append(jokes_dict[e])
-        print(jokes_dict[e] + '\n')
+
     return popular_jokes
 
 
@@ -59,7 +57,7 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
     worst_jokes = []
     for e in bottom_ids:
         worst_jokes.append(jokes_dict[e])
-        print(jokes_dict[e] + '\n')
+
     return worst_jokes
 
 
@@ -77,7 +75,9 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_historic):
     joke_to_show = 0
     indexs = users_like_frame.index.tolist()
 
-    class Found(Exception): pass
+    class Found(Exception):
+        pass
+
     try:
         for i in indexs:
             for j in range(1, jokes_number + 1):
@@ -86,12 +86,16 @@ def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_historic):
     except Found:
         joke_to_show = j
 
-    print(jokes_dict[j])
     return j, jokes_dict[j]
 
 
-def write_rating(rate, question_id):
-    new_user[question_id] = rate
+def write_rating(ratings, rate, joke_id, user_id):
+    if not user_id in ratings.index.tolist():
+        ratings.loc[len(ratings.index)] = [0 for i in range(158)]
+        indexs = ratings.index.tolist()
+        indexs[-1] = user_id
+        ratings.index = pd.Index(indexs)
+    ratings.loc[user_id, joke_id] = rate
 
 
 if __name__ == '__main__':
@@ -101,9 +105,12 @@ if __name__ == '__main__':
 
     # Fake user
     new_user = [0 for i in range(158)]
-    new_user[72] = new_user[105] = new_user[53] = new_user[89] = new_user[
-        32] = 7
-    new_user[19] = new_user[155] = new_user[156] = new_user[151] = -7
+    # new_user[72] = new_user[105] = new_user[53] = new_user[89] = new_user[
+    #     32] = 7
+    # new_user[19] = new_user[155] = new_user[156] = new_user[151] = -7
 
-    get_recommanded_joke(ratings, jokes_dict, number_of_ratings, new_user)
-
+    joke_id, joke = get_recommanded_joke(ratings, jokes_dict, number_of_ratings,
+                                         new_user)
+    print(joke)
+    write_rating(ratings, 7, joke_id, 10000)
+    print(ratings.iloc[-1, :].to_string())

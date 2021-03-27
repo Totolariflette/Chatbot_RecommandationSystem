@@ -1,6 +1,5 @@
 import flask
 import script
-from datetime import datetime
 from flask import jsonify, request
 
 
@@ -40,7 +39,7 @@ def get_worst_jokes():
 @app.route('/api/rate', methods=['POST'])
 def post_rating():
     rate = request.args.get("rate", default=0, type=float)
-    new_user[current_joke_id] = rate
+    new_user[current_joke_id - 1] = rate
 
 
 app.run()
