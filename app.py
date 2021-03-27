@@ -38,9 +38,10 @@ def get_worst_jokes():
 
 @app.route('/api/rate', methods=['POST'])
 def post_rating():
-    rate = request.args.get("rate", default=0, type=float)
+    rate = request.json["rate"]
     new_user[current_joke_id - 1] = rate
-    return 'ok'
+    print(new_user[current_joke_id -1])
+    return f'rate: {rate}'
 
 
 app.run()
