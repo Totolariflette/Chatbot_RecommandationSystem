@@ -64,7 +64,7 @@ def get_worst_jokes(mean_ratings, jokes_dict, n=3):
 
 def get_recommanded_joke(ratings, jokes_dict, number_of_ratings, user_id):
     if user_id not in ratings.index.tolist():
-        add_new_user(user_id)
+        add_new_user(ratings, user_id)
     user_historic = ratings.loc[user_id]
 
     if sum(user_historic) == 0:
